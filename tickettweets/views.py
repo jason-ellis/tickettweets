@@ -1,4 +1,4 @@
-from tickettweets import tickettweets
+from tickettweets import tickettweets, db
 from flask import render_template
 
 @tickettweets.route("/")

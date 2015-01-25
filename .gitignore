@@ -61,3 +61,5 @@ app.db
 search.db
 test.db
 venv/
+tweetcache/
+keys.py
