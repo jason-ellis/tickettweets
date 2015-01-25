@@ -1,4 +1,4 @@
-from tickettweets import db
+from app import db
 
 
 # TODO refactor for MongoDB

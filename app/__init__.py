@@ -1,12 +1,12 @@
 from flask import Flask
 
-from tickettweets import stream
+from app import stream
 
-tickettweets = Flask(__name__)
-db =
+app = Flask(__name__)
+
 
 # Start the Twitter stream
 stream.main()
 
 # import after tickettweets to prevent circular import
-from tickettweets import views
+from app import views

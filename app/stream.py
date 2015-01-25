@@ -1,5 +1,5 @@
 import tweepy
-from tickettweets.keys import *
+from app.keys import *
 from config import basedir
 
 cache_dir = basedir + '/tweetcache/'

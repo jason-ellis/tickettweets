@@ -1,3 +1,3 @@
 #!venv/bin/python
-from tickettweets import tickettweets
-tickettweets.run(debug=True)
+from app import app
+app.run(debug=True)
