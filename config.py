@@ -1,5 +1,7 @@
 import os
 
+# global debug settings
+debug = True
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 

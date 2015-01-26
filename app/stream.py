@@ -1,10 +1,7 @@
 import tweepy
 from app.keys import *
-from config import basedir
+from config import debug
 
-cache_dir = basedir + '/tweetcache/'
-
-debug = True
 users = [
     # The Musers
     'GeorgeDunham',
@@ -36,9 +33,12 @@ users = [
     'machinesports',
     'TC1310'
 ]
-if debug:
-    users.extend(['JasonDFW', 'SoccerlessSturm', 'SportsSlurm'])
-track = ['ticket', 'sports']
+
+if debug is True:
+        print("___Debug mode___")
+        users.extend(['JasonDFW', 'SoccerlessSturm', 'SportsSlurm'])
+
+track = None
 
 
 # override tweepy.StreamListener to add logic to on_status
@@ -71,15 +71,12 @@ class MyStreamListener(tweepy.StreamListener):
             print(status.source)
             print('--------------')
             # print(status)
-            with open('{}{}.json'.format(cache_dir, status.id_str),
-                      mode='w+',
-                      encoding='utf-8') as f:
-                f.write(str(status))
             return True
         else:
             print("{} mentioned {} - {}".format(screen_name,
                                                 mentions,
                                                 tweet_link))
+            print("\t{}".format(status_text))
 
     def on_error(self, status_code):
         print(status_code)
@@ -90,6 +87,7 @@ class MyStreamListener(tweepy.StreamListener):
 
 
 def main():
+
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 
@@ -99,7 +97,6 @@ def main():
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
 
     user_data = api.lookup_users(screen_names=users)
-    user_ids = []
     for user in user_data:
         print("Following: {} - {} - {}".format(user.name,
                                                user.screen_name,
