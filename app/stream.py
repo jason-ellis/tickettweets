@@ -114,7 +114,7 @@ def main():
                                                    user.id_str))
     user_ids = [user.id_str for user in user_data]
     # print(api.rate_limit_status())
-    myStream.filter(follow=user_ids)
+    myStream.filter(follow=user_ids, async=True)
 
 if __name__ == '__main__':
     main()
