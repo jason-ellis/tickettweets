@@ -76,9 +76,10 @@ $(document).ready(function() {
         var tweetText = tweet['text'];
 
         return '<div class="tweet" data-tweet="' + tweetId + '">' +
+            '<a href="http://twitter.com/' + screenName + '/" target="_blank">' +
             '<img class="profile_img" src="' + profileImageUrl + '" alt="profile image">' +
             '<span class="user_name">' + userName + '</span><br>' +
-            '<span class="screen_name">@' + screenName + '</span><br>' +
+            '<span class="screen_name">@' + screenName + '</span></a><br>' +
             '<div class="tweet_text">' + tweetText + '</div>' +
             '</div><hr>';
     }
