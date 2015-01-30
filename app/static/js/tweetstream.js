@@ -93,6 +93,6 @@ $(document).ready(function() {
             '<span class="screen_name">@' + screenName + '</span></a><br>' +
             '<div class="tweet_text">' + tweetText + '</div>' +
                 '<a href="' + linkStatus(screenName,tweetId) + '" target="_blank">Link to tweet</a>' +
-            '</div><hr>';
+            '</div>';
     }
 });
