@@ -67,20 +67,32 @@ $(document).ready(function() {
         }
     }
 
+    // Create link to profile
+    function linkProfile(id) {
+        return "https://twitter.com/intent/follow?user_id=" + id + "/"
+    }
+
+    // Create link to status
+    function linkStatus(id, statusId) {
+        return "http://twitter.com/" + id + "/status/" + statusId + "/"
+    }
+
     // format individual tweet for output to the DOM
     function formatTweet(tweet) {
         var tweetId = tweet['id_str'];
+        var userId = tweet['user']['id_str'];
         var profileImageUrl = tweet['user']['profile_image_url'];
         var userName = tweet['user']['name'];
         var screenName = tweet['user']['screen_name'];
         var tweetText = tweet['text'];
 
         return '<div class="tweet" data-tweet="' + tweetId + '">' +
-            '<a href="http://twitter.com/' + screenName + '/" target="_blank">' +
+            '<a href="' + linkProfile(userId) + '" target="_blank">' +
             '<img class="profile_img" src="' + profileImageUrl + '" alt="profile image">' +
             '<span class="user_name">' + userName + '</span><br>' +
             '<span class="screen_name">@' + screenName + '</span></a><br>' +
             '<div class="tweet_text">' + tweetText + '</div>' +
+                '<a href="' + linkStatus(screenName,tweetId) + '" target="_blank">Link to tweet</a>' +
             '</div><hr>';
     }
 });
