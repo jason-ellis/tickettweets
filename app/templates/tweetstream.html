@@ -7,7 +7,8 @@
       {% if debug %}
         <span style="float:right">{{ tweet._id }}</span>
       {% endif %}
-    <div class="tweet" data-tweet="{{ tweet.id_str }}"><a href="http://twitter.com/{{ tweet.user.screen_name }}/" target="_blank"><img class="profile_img" src="{{ tweet.user.profile_image_url }}" alt="profile image">
+      {# TODO update profile link to open in lightbox. update in JS also #}
+    <div class="tweet" data-tweet="{{ tweet.id_str }}"><a href="https://twitter.com/intent/follow?user_id={{ tweet.user.id_str }}/" target="_blank"><img class="profile_img" src="{{ tweet.user.profile_image_url }}" alt="profile image">
       <span class="user_name">{{ tweet.user.name }}</span><br>
         <span class="screen_name">@{{ tweet.user.screen_name }}</span></a><br>
         <div class="tweet_text">{{ tweet.text }}</div>
