@@ -4,6 +4,8 @@ from app import collection
 from config import debug
 import json
 
+# TODO reorg users to {user: attributes} so they can be granular filtered
+# example: Selecting ShakeJoint + P1s shows Sean, Jake, and all replies
 users = [
     # The Musers
     'GeorgeDunham',
@@ -119,7 +121,6 @@ def start_stream():
                                                    user.screen_name,
                                                    user.id_str))
     user_ids = [user.id_str for user in user_data]
-    # print(api.rate_limit_status())
     myStream.filter(follow=user_ids, async=True)
 
 if __name__ == '__main__':
