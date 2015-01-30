@@ -13,14 +13,20 @@ $(document).ready(function() {
             $.getJSON($SCRIPT_ROOT + '/_new_tweets',
                 {cursor: getCursor()},
                 function(new_tweets) {
-                    console.log(new_tweets.length + ' tweets returned');
-                    console.log('new_tweets: ' + new_tweets);
-                    console.log(new_tweets);
+                    if(debug) {
+                        logNewTweets(new_tweets);
+                    }
                     updateStream(new_tweets);
                 });
             return false;
         });
     });
+
+    function logNewTweets(tweets) {
+        console.log(tweets.length + ' tweets returned');
+                    console.log('new_tweets: ');
+                    console.log(tweets);
+    }
 
     // Fetches data-tweet of each tweet and returns the highest value as cursor
     function getCursor() {
@@ -29,9 +35,13 @@ $(document).ready(function() {
             tweetIds.push($(this).attr('data-tweet'));
         });
         tweetIds.sort(sortNumber);
-        console.log(tweetIds);
+        if(debug) {
+            console.log('Tweet IDs on page: ' + tweetIds);
+        }
         var cursor = tweetIds.pop();
-        console.log(cursor);
+        if(debug) {
+            console.log('Cursor popped and sent: ' + cursor);
+        }
         return cursor;
     }
 
@@ -44,15 +54,22 @@ $(document).ready(function() {
 
     // Add new tweets to DOM
     function updateStream(newTweets) {
-        $.each(newTweets, function(k, v) {
-            console.log(v);
+        var sortedTweets = newTweets.sort(function(a,b) {
+            return parseInt(a['_id']) - parseInt(b['_id'])
+        });
+        var addedTweets = [];
+        $.each(sortedTweets, function(k, v) {
+            addedTweets.push(v['_id']);
             $('#tweet_container').prepend(formatTweet(v));
-        })
+        });
+        if(debug) {
+            console.log('Added these new tweets: ' + addedTweets);
+        }
     }
 
     // format individual tweet for output to the DOM
     function formatTweet(tweet) {
-        var tweetId = tweet['_id'];
+        var tweetId = tweet['id_str'];
         var profileImageUrl = tweet['user']['profile_image_url'];
         var userName = tweet['user']['name'];
         var screenName = tweet['user']['screen_name'];

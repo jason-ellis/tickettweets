@@ -7,7 +7,7 @@
       {% if debug %}
         <span style="float:right">{{ tweet._id }}</span>
       {% endif %}
-    <div class="tweet" data-tweet="{{ tweet._id }}"><img class="profile_img" src="{{ tweet.user.profile_image_url }}" alt="profile image">
+    <div class="tweet" data-tweet="{{ tweet.id_str }}"><img class="profile_img" src="{{ tweet.user.profile_image_url }}" alt="profile image">
       <span class="user_name">{{ tweet.user.name }}</span><br>
         <span class="screen_name">@{{ tweet.user.screen_name }}</span><br>
         <div class="tweet_text">{{ tweet.text }}</div>
