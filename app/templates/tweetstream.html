@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-  <meta charset="UTF-8">
-  <title></title>
-</head>
-<body>
+<div id="tweetstream" class="container col-md-6 center-block">
+<div class="button"><a href="#" id="update">Check for new tweets</a></div>
+<div id="tweet_container">
 
-</body>
-</html>
+{% for tweet in tweets %}
+    {% if tweet.user %}
+      {% if debug %}
+        <span style="float:right">{{ tweet._id }}</span>
+      {% endif %}
+    <div class="tweet" data-tweet="{{ tweet._id }}"><img class="profile_img" src="{{ tweet.user.profile_image_url }}" alt="profile image">
+      <span class="user_name">{{ tweet.user.name }}</span><br>
+        <span class="screen_name">@{{ tweet.user.screen_name }}</span><br>
+        <div class="tweet_text">{{ tweet.text }}</div>
+
+      {% if tweet.extended_entities %}
+        {% for tweet in tweet.extended_entities.media %}
+          <a href="{{ tweet.media_url }}:large" target="_blank">
+            <img class="tweet_media" src="{{ tweet.media_url }}" alt="photo">
+          </a>
+        {% endfor %}
+
+      {% elif tweet.entities.media %}
+        {% for tweet in tweet.entities.media %}
+          <a href="{{ tweet.media_url }}:large" target="_blank">
+            <img class="tweet_media" src="{{ tweet.media_url }}" alt="photo">
+          </a>
+        {% endfor %}
+      {% endif %}
+
+        <a href="http://twitter.com/{{ tweet.user.id_str }}/status/{{ tweet.id_str }}" target="_blank">Link to tweet</a></div>
+    <hr>
+    {% endif %}
+  {% endfor %}
+</div>
+</div>

@@ -21,9 +21,7 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container">
-    {% include "tweetstream.html" %}
-  </div>
+
 {% endblock %}
 
 {% block head %}
@@ -36,4 +34,5 @@
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
+  <script src="{{ url_for('static', filename='js/tweetstream.js') }}"></script>
 {% endblock %}
