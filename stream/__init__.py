@@ -37,8 +37,8 @@ users = [
 ]
 
 if debug is True:
-        print("___Debug mode___")
-        users.extend(['JasonDFW', 'SoccerlessSturm', 'SportsSlurm'])
+    print("___Debug mode___")
+    users.extend(['JasonDFW', 'SoccerlessSturm', 'SportsSlurm'])
 
 track = None
 
@@ -95,7 +95,7 @@ class MyStreamListener(tweepy.StreamListener):
             return False
 
 
-def main():
+def start_stream():
 
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
     auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
@@ -117,4 +117,4 @@ def main():
     myStream.filter(follow=user_ids, async=True)
 
 if __name__ == '__main__':
-    main()
+    start_stream()

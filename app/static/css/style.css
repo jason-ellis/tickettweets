@@ -1,0 +1,24 @@
+body {
+    padding-top: 70px;
+}
+.tweet {
+    border: 1px solid gray;
+}
+.tweet .profile_img {
+    float: left;
+    height: 73px;
+    width: 73px;
+}
+.tweet .user_name,
+.tweet .screen_name {
+    float: left;
+}
+.tweet .tweet_text {
+    clear: both;
+}
+.tweet .tweet_media {
+    width: 100%;
+}
+.center-block {
+    float:none;
+}
