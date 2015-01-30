@@ -3,11 +3,15 @@ body {
 }
 .tweet {
     border: 1px solid gray;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
 }
 .tweet .profile_img {
     float: left;
     height: 73px;
     width: 73px;
+    border-radius: 5px;
 }
 .tweet .user_name,
 .tweet .screen_name {
