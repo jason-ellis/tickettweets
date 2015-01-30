@@ -28,7 +28,7 @@ users = [
     'tlw716',
     'killer1310',
     'CincoDeMino',
-    'CreyTrey1310',
+    'CrayTrey1310',
     'poponjer',
     'JustinMonty',
     'FAHY1015',
@@ -51,8 +51,13 @@ class MyStreamListener(tweepy.StreamListener):
 
     def on_data(self, raw_data):
         super(MyStreamListener, self).on_data(raw_data)
+        json_data = json.loads(raw_data)
+        if 'id_str' in json_data:
+            json_data['_id'] = int(json_data['id_str'])
+        else:
+            print('on_data fired with no id_str')
         # Store tweet in db
-        collection.insert(json.loads(raw_data))
+        collection.insert(json_data)
 
     def on_status(self, status):
 
@@ -69,23 +74,24 @@ class MyStreamListener(tweepy.StreamListener):
         mentions = [status.entities['user_mentions']['screen_name']
                     for status.entities['user_mentions']
                     in status.entities['user_mentions']]
-        if screen_name in users:
-            print('--------------')
-            print("|--| {0}".format(user_name))
-            print("|__| @{0}".format(screen_name))
-            print(status_text)
-            print('\n')
-            print("Reply, Retweet, Favorite")
-            print("{0} - {1}".format(tweet_time, tweet_link))
-            print(status.source)
-            print('--------------')
-            # print(status)
-            return True
-        else:
-            print("@{0} mentioned {1} - {2}".format(screen_name,
-                                                    mentions,
-                                                    tweet_link))
-            print("\t{0}".format(status_text))
+
+        if debug is True:
+            if screen_name in users:
+                print('--------------')
+                print("|--| {0}".format(user_name))
+                print("|__| @{0}".format(screen_name))
+                print(status_text)
+                print('\n')
+                print("Reply, Retweet, Favorite")
+                print("{0} - {1}".format(tweet_time, tweet_link))
+                print(status.source)
+                print('--------------')
+                return True
+            else:
+                print("@{0} mentioned {1} - {2}".format(screen_name,
+                                                        mentions,
+                                                        tweet_link))
+                print("\t{0}".format(status_text))
 
     def on_error(self, status_code):
         print("Error {0} encountered".format(status_code))
