@@ -1,5 +1,11 @@
 $(document).ready(function() {
 
+    // Respects debugging in JS
+    var debug = $('#debug').data('debug');
+    if(debug) {
+        console.log('Debugging is enabled');
+    }
+
     // Event for clicking the update button.
     // Submits cursor to _new_tweets and receives new tweet objects
     $(function () {
@@ -44,6 +50,7 @@ $(document).ready(function() {
         })
     }
 
+    // format individual tweet for output to the DOM
     function formatTweet(tweet) {
         var tweetId = tweet['_id'];
         var profileImageUrl = tweet['user']['profile_image_url'];
