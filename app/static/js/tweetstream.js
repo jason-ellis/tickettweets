@@ -1,8 +1,9 @@
 $(document).ready(function() {
 
     // Respects debugging in JS
-    var debug = $('#debug').data('debug');
-    if(debug) {
+    var debug = false;
+    if($('#debug').data('debug') == 'True') {
+        debug = true;
         console.log('Debugging is enabled');
     }
 
@@ -94,5 +95,10 @@ $(document).ready(function() {
             '<div class="tweet_text">' + tweetText + '</div>' +
                 '<a href="' + linkStatus(screenName,tweetId) + '" target="_blank">Link to tweet</a>' +
             '</div>';
+    }
+
+    // Process media entities for a tweet
+    function fomatTweetText(tweet) {
+        var tweetText = tweet['text']
     }
 });
