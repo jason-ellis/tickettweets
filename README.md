@@ -8,7 +8,7 @@ This project uses:
 
 Backend: Python, Flask, Jinja2, MongoDB, PyMongo, and Tweepy. 
 
-Frontend: JavaScript and jQuery
+Frontend: Twitter Bootstrap, JavaScript and jQuery
 
 The goal of this project is to provide one stop (tickettweets.com when deployed) for Ticket P1s to see all of the Ticket chatter.
 
