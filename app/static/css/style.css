@@ -26,3 +26,6 @@ body {
 .center-block {
     float:none;
 }
+#tweetstream {
+    padding-bottom: 50px;
+}
