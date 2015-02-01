@@ -11,13 +11,15 @@ $(document).ready(function() {
     // Submits cursor to _new_tweets and receives new tweet objects
     $(function () {
         $('a#update').bind('click', function () {
-            $.getJSON($SCRIPT_ROOT + '/_new_tweets',
+            $.get($SCRIPT_ROOT + '/_new_tweets',
                 {cursor: getCursor()},
                 function(new_tweets) {
                     if(debug) {
-                        logNewTweets(new_tweets);
+                        //logNewTweets(new_tweets);
+                        console.log(new_tweets);
                     }
-                    updateStream(new_tweets, 'new');
+                    //updateStream(new_tweets, 'new');
+                    $('#tweet_container').prepend(new_tweets);
                 });
             return false;
         });
