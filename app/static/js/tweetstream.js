@@ -17,7 +17,23 @@ $(document).ready(function() {
                     if(debug) {
                         logNewTweets(new_tweets);
                     }
-                    updateStream(new_tweets);
+                    updateStream(new_tweets, 'new');
+                });
+            return false;
+        });
+    });
+
+    // Event for clicking the older tweets button.
+    // Submits cursor to _more_tweets and receives older tweet objects
+    $(function () {
+        $('a#more_tweets').bind('click', function () {
+            $.getJSON($SCRIPT_ROOT + '/_more_tweets',
+                {last_tweet_id: getOldest()},
+                function(old_tweets) {
+                    if(debug) {
+                        logNewTweets(old_tweets);
+                    }
+                    updateStream(old_tweets, 'old');
                 });
             return false;
         });
@@ -35,7 +51,7 @@ $(document).ready(function() {
         $.each($('.tweet'), function(tweet) {
             tweetIds.push($(this).attr('data-tweet'));
         });
-        tweetIds.sort(sortNumber);
+        tweetIds.sort(function(a, b) {return a-b});
         if(debug) {
             console.log('Tweet IDs on page: ' + tweetIds);
         }
@@ -46,22 +62,38 @@ $(document).ready(function() {
         return cursor;
     }
 
-    // Sort the tweetIds from getCursor
-    function sortNumber(a,b) {
-        return a - b;
+    // Fetches data-tweet of each tweet and returns the lowest value
+    function getOldest() {
+        var tweetIds = [];
+        $.each($('.tweet'), function(tweet) {
+            tweetIds.push($(this).attr('data-tweet'));
+        });
+        tweetIds.sort(function(a, b) {return b-a});
+        if(debug) {
+            console.log('Tweet IDs on page: ' + tweetIds);
+        }
+        var oldestTweet = tweetIds.pop();
+        if(debug) {
+            console.log('Oldest tweet popped and sent: ' + oldestTweet);
+        }
+        return oldestTweet;
     }
 
     getCursor();
 
     // Add new tweets to DOM
-    function updateStream(newTweets) {
+    function updateStream(newTweets, age) {
         var sortedTweets = newTweets.sort(function(a,b) {
             return parseInt(a['_id']) - parseInt(b['_id'])
         });
         var addedTweets = [];
         $.each(sortedTweets, function(k, v) {
             addedTweets.push(v['_id']);
-            $('#tweet_container').prepend(formatTweet(v));
+            if(age=='new') {
+                $('#tweet_container').prepend(formatTweet(v));
+            } else if(age=='old') {
+                $('#tweet_container').append(formatTweet(v));
+            }
         });
         if(debug) {
             console.log('Added these new tweets: ' + addedTweets);
@@ -98,7 +130,7 @@ $(document).ready(function() {
     }
 
     // Process media entities for a tweet
-    function fomatTweetText(tweet) {
+    function formatTweetText(tweet) {
         var tweetText = tweet['text']
     }
 });
