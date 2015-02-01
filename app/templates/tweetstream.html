@@ -2,6 +2,7 @@
 <div class="button"><a href="#" id="update">Check for new tweets</a></div>
 <div id="tweet_container">
 
+{# TODO update profile link to open in lightbox. update in JS also #}
 {% for tweet in tweets %}
     {% if tweet.user %}
         {% include 'tweet.html' %}
