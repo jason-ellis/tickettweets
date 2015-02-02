@@ -18,6 +18,7 @@ $(document).ready(function() {
                         console.log('New tweets: ' + new_tweets);
                     }
                     $('#tweet_container').prepend(new_tweets);
+                    flask_moment_render_all();
                 });
             return false;
         });
@@ -34,6 +35,7 @@ $(document).ready(function() {
                         console.log('Added tweets: ' + old_tweets);
                     }
                     $('#tweet_container').append(old_tweets);
+                    flask_moment_render_all();
                 });
             return false;
         });

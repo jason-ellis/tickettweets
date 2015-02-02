@@ -29,3 +29,6 @@ body {
 #tweetstream {
     padding-bottom: 50px;
 }
+.tweet_timestamp {
+    float: right;
+}

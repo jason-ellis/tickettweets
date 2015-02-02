@@ -28,9 +28,12 @@
 {% block head %}
     {{ super() }}
     {{ fixes.ie8() }}
+    {{ moment.include_jquery(version='1.11.1') }}
+    {{ moment.include_moment() }}
 {% endblock %}
 
 {% block scripts %}
+  {# TODO remove jquery from this #}
   {{ super() }}
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
