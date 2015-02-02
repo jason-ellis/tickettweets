@@ -1,9 +1,10 @@
 import json
 import sys
+from datetime import datetime
 
 from app import app, collection
 from stream import debug
-from flask import render_template, request, Response
+from flask import render_template, request, Markup
 
 
 @app.route("/")
@@ -11,6 +12,11 @@ def index():
     tweets = []
     for tweet in collection.find({ 'text': {'$exists': True}})\
             .sort('_id', -1).limit(20):
+        if 'retweeted_status' in tweet:
+            tweet['retweeted_status']['text'] = \
+                add_entities(tweet['retweeted_status']['text'],
+                             tweet['retweeted_status']['entities'])
+        tweet['text'] = add_entities(tweet['text'], tweet['entities'])
         tweets.append(tweet)
     if debug:
         print('Sent {0} tweets to DOM'.format(len(tweets)))
@@ -39,6 +45,11 @@ def new_tweets():
     for tweet in collection.find({'_id': {'$gt': cursor_id}}).sort('_id', -1):
         print('tweet {0} created at {1}'.format(tweet['_id'],
                                                 tweet['created_at']))
+        if 'retweeted_status' in tweet:
+            tweet['retweeted_status']['text'] = \
+                add_entities(tweet['retweeted_status']['text'],
+                             tweet['retweeted_status']['entities'])
+        tweet['text'] = add_entities(tweet['text'], tweet['entities'])
         tweet_html = render_template('tweet.html',
                         tweet=tweet,
                         debug=debug)
@@ -68,9 +79,46 @@ def more_tweets():
             .sort('_id', -1).limit(20):
         print('tweet {0} created at {1}'.format(tweet['_id'],
                                                 tweet['created_at']))
+        if 'retweeted_status' in tweet:
+            tweet['retweeted_status']['text'] = \
+                add_entities(tweet['retweeted_status']['text'],
+                             tweet['retweeted_status']['entities'])
+        tweet['text'] = add_entities(tweet['text'], tweet['entities'])
         tweet_html = render_template('tweet.html',
                         tweet=tweet,
                         debug=debug)
         older_tweets.append(tweet_html)
     older_tweets = '\n'.join(older_tweets)
     return older_tweets
+
+# Parse datetime of tweets
+@app.template_filter('parse_date')
+def parse_date(tweet_date):
+    parsed_date = datetime.strptime(tweet_date, '%a %b %d %H:%M:%S %z %Y')
+    # parsed_date = parsed_date.strftime('%a %b %d %I:%M %p')
+    return parsed_date
+
+
+# add links to entities in tweet
+def add_entities(tweet_text, tweet_entities):
+    print('entities function hit')
+    # Per Twitter API, tolerant of possible empty/null values
+    if 'url' in tweet_entities:
+        for url in tweet_entities['urls']:
+            tweet_text = tweet_text.replace(url['url'],
+                '<a href="{0}" title="{1}">{2}</a>'
+                .format(url['url'],
+                        url['expanded_url'],
+                        url['display_url']))
+    if 'user_mentions' in tweet_entities:
+        for user in tweet_entities['user_mentions']:
+            tweet_text = tweet_text.replace('@{}'.format(
+                user['screen_name']),
+                '<a href="https://twitter.com/intent/follow?user_id={0}/"'
+                ' target="_blank">@{1}</a>'.format(
+                    user['id_str'], user['screen_name']))
+    if 'media' in tweet_entities:
+        for media in tweet_entities['media']:
+            tweet_text = tweet_text.replace(media['url'], '')
+    tweet_text = Markup(tweet_text)
+    return tweet_text
