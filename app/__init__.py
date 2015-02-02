@@ -1,9 +1,11 @@
 from flask import Flask
 from pymongo import Connection
 from flask_bootstrap import Bootstrap
+from flask.ext.moment import Moment
 
 app = Flask(__name__)
 Bootstrap(app)
+moment = Moment(app)
 
 # Start MongoDB
 conn = Connection()
