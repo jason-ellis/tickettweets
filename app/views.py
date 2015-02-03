@@ -103,10 +103,11 @@ def parse_date(tweet_date):
 def add_entities(tweet_text, tweet_entities):
     print('entities function hit')
     # Per Twitter API, tolerant of possible empty/null values
-    if 'url' in tweet_entities:
+    if 'urls' in tweet_entities:
         for url in tweet_entities['urls']:
-            tweet_text = tweet_text.replace(url['url'],
-                '<a href="{0}" title="{1}">{2}</a>'
+            tweet_text = tweet_text.replace(
+                url['url'],
+                '<a href="{0}" title="{1}" target="_blank">{2}</a>'
                 .format(url['url'],
                         url['expanded_url'],
                         url['display_url']))
@@ -120,5 +121,12 @@ def add_entities(tweet_text, tweet_entities):
     if 'media' in tweet_entities:
         for media in tweet_entities['media']:
             tweet_text = tweet_text.replace(media['url'], '')
+    if 'hashtags' in tweet_entities:
+        for hashtag in tweet_entities['hashtags']:
+            tweet_text = tweet_text.replace(
+                '#{0}'.format(hashtag['text']),
+                '<a href="http://twitter.com/search?q=%23{0}" '
+                'target="_blank">#{0}</a>'
+                .format(hashtag['text']))
     tweet_text = Markup(tweet_text)
     return tweet_text
