@@ -1,57 +1,54 @@
+{# Set tweet variables #}
+{% set tweet_id = tweet.retweeted_status.id_str
+    if tweet.retweeted_status
+    else tweet.id_str %}
+{% set user_id = tweet.retweeted_status.user.id_str
+    if tweet.retweeted_status
+    else tweet.user.id_str %}
+{% set tweet_created_at = tweet.retweeted_status.created_at
+    if tweet.retweeted_status
+    else tweet.created_at %}
+{% set user_name = tweet.retweeted_status.user.name
+    if tweet.retweeted_status
+    else tweet.user.name %}
+{% set user_screen_name = tweet.retweeted_status.user.screen_name
+    if tweet.retweeted_status
+    else tweet.user.screen_name %}
+{% set user_profile_image_url = tweet.retweeted_status.user.profile_image_url
+    if tweet.retweeted_status
+    else tweet.user.profile_image_url %}
+{% set tweet_text = tweet.retweeted_status.text
+    if tweet.retweeted_status
+    else tweet.text %}
+
 <div class="tweet" data-tweet="{{ tweet.id_str }}">
 
-{# Retweeter name, timestamp, permalink to user #}
+{# Retweeter name, timestamp, permalink to user. Does not use local variables #}
 {% if tweet.retweeted_status %}
 
-  <span class="retweeter_name">
+  <div class="retweeter_name" data-retweet="{{ tweet.id_str }}">
+    <img src="{{ url_for('static', filename='img/retweet_on.png') }}">
     <a href="https://twitter.com/intent/follow?user_id={{ tweet.user.id_str }}/" target="_blank">{{ tweet.user.name }} retweeted at
       {{ moment(tweet.created_at|parse_date).format('h:mma') }}</a>
-  </span>
+  </div>
 
 {% endif %}
 
 {# Tweet timestamp and permalink #}
-  <span class="tweet_timestamp">
+  <div class="tweet_timestamp">
 
-{% if tweet.retweeted_status %}
+    <a href="http://twitter.com/{{ user_id }}/status/{{ tweet_id }}" target="_blank" title="{{ tweet_created_at }}">{{ moment(tweet_created_at|parse_date).format('h:mma - ddd MMM D') }}</a>
 
-    <a href="http://twitter.com/{{ tweet.retweeted_status.user.id_str }}/status/{{ tweet.retweeted_status.id_str }}" target="_blank" title="{{ tweet.retweeted_status.created_at }}">{{ moment(tweet.retweeted_status.created_at|parse_date).format('h:mma - ddd MMM D') }}</a>
-
-{% else %}
-
-  <a href="http://twitter.com/{{ tweet.user.id_str }}/status/{{ tweet.id_str }}" target="_blank" title="{{ tweet.created_at }}">{{ moment(tweet.created_at|parse_date).format('h:mma - ddd MMM D') }}</a>
-
-{% endif %}
-
-  </span>
+  </div>
 
 {# User profile, name, screen name #}
-{% if tweet.retweeted_status %}
-
-  <a href="https://twitter.com/intent/follow?user_id={{ tweet.retweeted_status.user.id_str }}/" target="_blank">
-    <img class="profile_img" src="{{ tweet.retweeted_status.user.profile_image_url }}" alt="profile image">
-  <span class="user_name">{{ tweet.retweeted_status.user.name }}</span>
-    <span class="screen_name ">@{{ tweet.retweeted_status.user.screen_name }}</span></a>
-
-{% else %}
-
-  <a href="https://twitter.com/intent/follow?user_id={{ tweet.user.id_str }}/" target="_blank">
-    <img class="profile_img" src="{{ tweet.user.profile_image_url }}" alt="profile image">
-  <span class="user_name">{{ tweet.user.name }}</span>
-    <span class="screen_name">@{{ tweet.user.screen_name }}</span></a>
-
-{% endif %}
+  <a href="https://twitter.com/intent/follow?user_id={{ user_id }}/" target="_blank">
+    <img class="profile_img" src="{{ user_profile_image_url }}" alt="profile image">
+  <div class="user_name">{{ user_name }}</div><br>
+    <div class="screen_name ">@{{ user_screen_name }}</div></a>
 
 {# Tweet text #}
-{% if tweet.retweeted_status %}
-
-  <div class="tweet_text">{{ tweet.retweeted_status.text }}</div>
-
-{% else %}
-
-  <div class="tweet_text">{{ tweet.text }}</div>
-
-{% endif %}
+  <div class="tweet_text">{{ tweet_text }}</div>
 
 {% if tweet.entities.media %}
 
@@ -76,8 +73,8 @@
 {% endif %}
 
 <div class="actions">
-  <a href="https://twitter.com/intent/favorite?tweet_id={{ tweet.id_str }}" target="_blank">Favorite <img src="{{ url_for('static', filename='img/favorite.png') }}"></a>
-  <a href="https://twitter.com/intent/tweet?in-reply-to={{ tweet.id_str }}" target="_blank">Reply <img src="{{ url_for('static', filename='img/reply.png') }}"></a>
-  <a href="https://twitter.com/intent/retweet?tweet_id={{ tweet.id_str }}" target="_blank">Retweet <img src="{{ url_for('static', filename='img/retweet.png') }}"></a>
+  <a href="https://twitter.com/intent/favorite?tweet_id={{ tweet_id }}" target="_blank">Favorite <img src="{{ url_for('static', filename='img/favorite.png') }}"></a>
+  <a href="https://twitter.com/intent/tweet?in-reply-to={{ tweet_id }}" target="_blank">Reply <img src="{{ url_for('static', filename='img/reply.png') }}"></a>
+  <a href="https://twitter.com/intent/retweet?tweet_id={{ tweet_id }}" target="_blank">Retweet <img src="{{ url_for('static', filename='img/retweet.png') }}"></a>
 </div>
 </div>
