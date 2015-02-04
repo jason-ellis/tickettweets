@@ -6,6 +6,7 @@ import json
 
 # TODO reorg users to {user: attributes} so they can be granular filtered
 # example: Selecting ShakeJoint + P1s shows Sean, Jake, and all replies
+# Also use ID as primary, lookup ID as fallback (protect against name changes)
 users = [
     # The Musers
     'GeorgeDunham',
@@ -33,7 +34,7 @@ users = [
     'CrayTrey1310',
     'poponjer',
     'JustinMonty',
-    'FAHY1015',
+    'FAHY_MANE',
     'machinesports',
     'TC1310'
 ]
@@ -58,26 +59,26 @@ class MyStreamListener(tweepy.StreamListener):
             json_data['_id'] = int(json_data['id_str'])
         else:
             print('on_data fired with no id_str')
-        # Store tweet in db
+        # Store tweet in db as JSON
         collection.insert(json_data)
 
     def on_status(self, status):
 
-        # Assign var for pertinent data from status
-        screen_name = status.user.screen_name
-        user_name = status.user.name
-        user_id = status.user.id_str
-        status_id = status.id_str
-        status_text = status.text
-        tweet_time = status.created_at
-        tweet_link = "http://twitter.com/{0}/status/{1}".format(user_id,
-                                                                status_id)
+        if debug:
+            # Assign var for pertinent data from status
+            screen_name = status.user.screen_name
+            user_name = status.user.name
+            user_id = status.user.id_str
+            status_id = status.id_str
+            status_text = status.text
+            tweet_time = status.created_at
+            tweet_link = "http://twitter.com/{0}/status/{1}".format(user_id,
+                                                                    status_id)
 
-        mentions = [status.entities['user_mentions']['screen_name']
-                    for status.entities['user_mentions']
-                    in status.entities['user_mentions']]
+            mentions = [status.entities['user_mentions']['screen_name']
+                        for status.entities['user_mentions']
+                        in status.entities['user_mentions']]
 
-        if debug is True:
             if screen_name in users:
                 print('--------------')
                 print("|--| {0}".format(user_name))
