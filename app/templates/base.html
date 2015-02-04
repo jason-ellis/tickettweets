@@ -1,12 +1,19 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/fixes.html" as fixes %}
 
-{% block html_attribs %} lang="en" {% endblock %}
-{% block title %}Ticket Tweets{% endblock %}
+{% block html_attribs %} lang="en" {% endblock html_attribs %}
+{% block title %}Ticket Tweets{% endblock title %}
 {% block metas %}
   <meta name="description" content="Live Twitter feeds from The Ticket radio in Dallas">
   <meta id="debug" data-debug='{{ debug }}'>
-{% endblock %}
+{% endblock metas%}
+
+{% block head %}
+    {{ super() }}
+    {{ fixes.ie8() }}
+    {{ moment.include_jquery(version='1.11.1') }}
+    {{ moment.include_moment() }}
+{% endblock head %}
 
 {% block styles %}
   {{ super() }}
@@ -15,22 +22,15 @@
 
     <!-- Font Awesome for social buttons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-{% endblock %}
+{% endblock styles %}
 
 {% block navbar %}
   {% include "navbar.html" %}
-{% endblock %}
+{% endblock navbar %}
 
 {% block content %}
 
-{% endblock %}
-
-{% block head %}
-    {{ super() }}
-    {{ fixes.ie8() }}
-    {{ moment.include_jquery(version='1.11.1') }}
-    {{ moment.include_moment() }}
-{% endblock %}
+{% endblock content %}
 
 {% block scripts %}
   {# TODO remove jquery from this #}
@@ -39,4 +39,4 @@
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
   <script src="{{ url_for('static', filename='js/tweetstream.js') }}"></script>
-{% endblock %}
+{% endblock scripts %}
