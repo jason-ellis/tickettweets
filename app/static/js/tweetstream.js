@@ -38,38 +38,37 @@ $(document).ready(function() {
 
     // Fetches data-tweet of each tweet and returns the highest value as cursor
     function getCursor() {
-        var tweetIds = [];
-        $.each($('.tweet'), function(tweet) {
-            tweetIds.push($(this).attr('data-tweet'));
-        });
-        tweetIds.sort(function(a, b) {return a-b});
         if(debug) {
+            var tweetIds = [];
+            $.each($('.tweet'), function(tweet) {
+                tweetIds.push($(this).attr('data-tweet'));
+            });
+            tweetIds.sort(function(a, b) {return a-b});
             console.log('Tweet IDs on page: ' + tweetIds);
+            console.log('Cursor should be: ' + tweetIds.pop());
         }
-        var cursor = tweetIds.pop();
+        var cursor = $('.tweet').first().attr('data-tweet');
         if(debug) {
-            console.log('Cursor popped and sent: ' + cursor);
+            console.log('Cursor sent: ' + cursor);
         }
         return cursor;
     }
 
     // Fetches data-tweet of each tweet and returns the lowest value
     function getOldest() {
-        var tweetIds = [];
-        $.each($('.tweet'), function(tweet) {
-            tweetIds.push($(this).attr('data-tweet'));
-        });
-        tweetIds.sort(function(a, b) {return b-a});
         if(debug) {
+            var tweetIds = [];
+            $.each($('.tweet'), function(tweet) {
+                tweetIds.push($(this).attr('data-tweet'));
+            });
+            tweetIds.sort(function(a, b) {return b-a});
             console.log('Tweet IDs on page: ' + tweetIds);
+            console.log('Oldest should be: ' + tweetIds.pop());
         }
-        var oldestTweet = tweetIds.pop();
+        var oldestTweet = $('.tweet').last().attr('data-tweet');
         if(debug) {
-            console.log('Oldest tweet popped and sent: ' + oldestTweet);
+            console.log('Oldest sent: ' + oldestTweet);
         }
         return oldestTweet;
     }
-
-    getCursor();
-
 });
