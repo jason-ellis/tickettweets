@@ -101,7 +101,6 @@ def parse_date(tweet_date):
 
 # add links to entities in tweet
 def add_entities(tweet_text, tweet_entities):
-    print('entities function hit')
     # Per Twitter API, tolerant of possible empty/null values
     if 'urls' in tweet_entities:
         for url in tweet_entities['urls']:
