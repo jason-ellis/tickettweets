@@ -1,7 +1,7 @@
-import json
 import sys
 from datetime import datetime
 
+import re
 from app import app, collection
 from stream import debug
 from flask import render_template, request, Markup
@@ -43,8 +43,9 @@ def new_tweets():
             print('**Other Error: {}'.format(e))
     updated_tweets = []
     for tweet in collection.find({'_id': {'$gt': cursor_id}}).sort('_id', -1):
-        print('tweet {0} created at {1}'.format(tweet['_id'],
-                                                tweet['created_at']))
+        if debug:
+            print('tweet {0} created at {1}'.format(tweet['_id'],
+                                                    tweet['created_at']))
         if 'retweeted_status' in tweet:
             tweet['retweeted_status']['text'] = \
                 add_entities(tweet['retweeted_status']['text'],
@@ -104,28 +105,31 @@ def add_entities(tweet_text, tweet_entities):
     # Per Twitter API, tolerant of possible empty/null values
     if 'urls' in tweet_entities:
         for url in tweet_entities['urls']:
-            tweet_text = tweet_text.replace(
+            tweet_text = re.sub(
                 url['url'],
                 '<a href="{0}" title="{1}" target="_blank">{2}</a>'
                 .format(url['url'],
                         url['expanded_url'],
-                        url['display_url']))
+                        url['display_url']),
+                tweet_text, flags=re.IGNORECASE)
     if 'user_mentions' in tweet_entities:
         for user in tweet_entities['user_mentions']:
-            tweet_text = tweet_text.replace('@{}'.format(
-                user['screen_name']),
-                '<a href="https://twitter.com/intent/follow?user_id={0}/"'
-                ' target="_blank">@{1}</a>'.format(
-                    user['id_str'], user['screen_name']))
+            tweet_text = re.sub(
+                '@{0}'.format(user['screen_name']),
+                '<a href="https://twitter.com/intent/follow?user_id={0}/" '
+                'target="_blank">@{1}</a>'.format(user['id_str'],
+                                                  user['screen_name']),
+                tweet_text, flags=re.IGNORECASE)
     if 'media' in tweet_entities:
         for media in tweet_entities['media']:
             tweet_text = tweet_text.replace(media['url'], '')
     if 'hashtags' in tweet_entities:
         for hashtag in tweet_entities['hashtags']:
-            tweet_text = tweet_text.replace(
+            tweet_text = re.sub(
                 '#{0}'.format(hashtag['text']),
                 '<a href="http://twitter.com/search?q=%23{0}" '
                 'target="_blank">#{0}</a>'
-                .format(hashtag['text']))
+                .format(hashtag['text']),
+                tweet_text, flags=re.IGNORECASE)
     tweet_text = Markup(tweet_text)
     return tweet_text
