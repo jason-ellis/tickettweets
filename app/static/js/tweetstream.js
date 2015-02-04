@@ -14,15 +14,13 @@ $(document).ready(function() {
             $.get($SCRIPT_ROOT + '/_new_tweets',
                 {cursor: getCursor()},
                 function(new_tweets) {
-                    if(debug) {
-                        console.log('New tweets: ' + new_tweets);
-                    }
                     $('#tweet_container').prepend(new_tweets);
                     flask_moment_render_all();
                 });
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
             return false;
+            })
         });
-    });
 
     // Event for clicking the older tweets button.
     // Submits cursor to _more_tweets and receives older tweet objects
@@ -31,9 +29,6 @@ $(document).ready(function() {
             $.get($SCRIPT_ROOT + '/_more_tweets',
                 {last_tweet_id: getOldest()},
                 function(old_tweets) {
-                    if(debug) {
-                        console.log('Added tweets: ' + old_tweets);
-                    }
                     $('#tweet_container').append(old_tweets);
                     flask_moment_render_all();
                 });
