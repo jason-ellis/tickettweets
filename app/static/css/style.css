@@ -1,24 +1,48 @@
 body {
     padding-top: 70px;
 }
+* {
+    font-family: 'Helvetica Neue',
+                 Helvetica,
+                 Arial,
+                 sans-serif;
+}
 .tweet {
     border: 1px solid gray;
     border-radius: 10px;
     margin-bottom: 15px;
     padding: 10px;
+    width: 100%;
+    clear: both;
+    position: relative;
 }
 .tweet .profile_img {
     float: left;
-    height: 73px;
-    width: 73px;
+    height: 48px;
+    width: 48px;
     border-radius: 5px;
+    clear: left;
+    position: relative;
 }
 .tweet .user_name,
 .tweet .screen_name {
-    float: left;
+    float: none;
+    position: relative;
+    padding-left: 5px;
+    display: inline-block;
 }
-.tweet .tweet_text {
-    clear: both;
+.user_name {
+    font-weight: bold;
+    font-size: 14px;
+    color: #292f33;
+    vertical-align: top;
+}
+.user_name:hover {
+    color: #009999;
+}
+.screen_name {
+    font-size: 13px;
+    color: #8899a6;
 }
 .tweet .tweet_media {
     width: 100%;
@@ -31,4 +55,16 @@ body {
 }
 .tweet_timestamp {
     float: right;
+}
+.retweeter_name {
+    padding-bottom: 5px;
+}
+.tweet .tweet_text {
+    /*display: inline-block;*/
+    clear: both;
+    padding: 5px;
+}
+.tweets .actions {
+    float: none;
+    clear: both;
 }
