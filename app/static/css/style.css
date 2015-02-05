@@ -8,13 +8,7 @@ body {
                  sans-serif;
 }
 .tweet {
-    border: 1px solid gray;
-    border-radius: 10px;
-    margin-bottom: 15px;
-    padding: 10px;
-    width: 100%;
-    clear: both;
-    position: relative;
+
 }
 .tweet .profile_img {
     float: left;
@@ -57,14 +51,13 @@ body {
     float: right;
 }
 .retweeter_name {
-    padding-bottom: 5px;
+
 }
 .tweet .tweet_text {
-    /*display: inline-block;*/
+    display: inline-block;
     clear: both;
     padding: 5px;
 }
 .tweets .actions {
-    float: none;
-    clear: both;
+
 }
