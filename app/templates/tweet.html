@@ -20,26 +20,38 @@
 {% set tweet_text = tweet.retweeted_status.text
     if tweet.retweeted_status
     else tweet.text %}
+{% set follow_ids = ['19529387'] %}
 
-<div class="tweet" data-tweet="{{ tweet.id_str }}">
+{% if user_id in follow_ids %}
+  <div class="tweet panel panel-info" data-tweet="{{ tweet.id_str }}">
+{% else %}
+  <div class="tweet panel panel-default" data-tweet="{{ tweet.id_str }}">
+{% endif %}
 
 {# Retweeter name, timestamp, permalink to user. Does not use local variables #}
 {% if tweet.retweeted_status %}
 
-  <div class="retweeter_name" data-retweet="{{ tweet.id_str }}">
+  <div class="retweeter_name panel-heading panel-info" data-retweet="{{ tweet.id_str }}">
     <img src="{{ url_for('static', filename='img/retweet_on.png') }}">
     <a href="https://twitter.com/intent/follow?user_id={{ tweet.user.id_str }}/" target="_blank">{{ tweet.user.name }} retweeted at
       {{ moment(tweet.created_at|parse_date).format('h:mma') }}</a>
-  </div>
+  </div><!-- retweeter_name -->
+
+{% elif tweet.in_reply_to_status_id %}
+
+  <div class="reply_tweet panel-heading panel-info" data-reply="{{ tweet.id_str }}">
+    <a href="https://twitter.com/{{ tweet.in_reply_to_user_id_str }}/status/{{ tweet.in_reply_to_status_id }}/" target="_blank">In reply to @{{ tweet.in_reply_to_screen_name }}</a>
+  </div><!-- reply_tweet -->
 
 {% endif %}
 
+  <div class="panel-body">
 {# Tweet timestamp and permalink #}
   <div class="tweet_timestamp">
 
     <a href="http://twitter.com/{{ user_id }}/status/{{ tweet_id }}" target="_blank" title="{{ tweet_created_at }}">{{ moment(tweet_created_at|parse_date).format('h:mma - ddd MMM D') }}</a>
 
-  </div>
+  </div><!-- tweet_timestamp -->
 
 {# User profile, name, screen name #}
   <a href="https://twitter.com/intent/follow?user_id={{ user_id }}/" target="_blank">
@@ -71,10 +83,11 @@
   {% endfor %}
 
 {% endif %}
+</div><!-- panel-body -->
 
-<div class="actions">
+<div class="actions panel-footer">
   <a href="https://twitter.com/intent/favorite?tweet_id={{ tweet_id }}" target="_blank">Favorite <img src="{{ url_for('static', filename='img/favorite.png') }}"></a>
-  <a href="https://twitter.com/intent/tweet?in-reply-to={{ tweet_id }}" target="_blank">Reply <img src="{{ url_for('static', filename='img/reply.png') }}"></a>
+  <a href="https://twitter.com/intent/tweet?in_reply_to={{ tweet_id }}" target="_blank">Reply <img src="{{ url_for('static', filename='img/reply.png') }}"></a>
   <a href="https://twitter.com/intent/retweet?tweet_id={{ tweet_id }}" target="_blank">Retweet <img src="{{ url_for('static', filename='img/retweet.png') }}"></a>
-</div>
-</div>
+  </div><!-- actions panel-footer -->
+</div><!-- tweet panel panel-default -->
