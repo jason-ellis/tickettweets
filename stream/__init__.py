@@ -1,49 +1,9 @@
 import tweepy
+from .filter import users, track, debug_users
 from app.keys import *
 from app import collection
 from config import debug
 import json
-
-# TODO reorg users to {user: attributes} so they can be granular filtered
-# example: Selecting ShakeJoint + P1s shows Sean, Jake, and all replies
-# Also use ID as primary, lookup ID as fallback (protect against name changes)
-users = [
-    # The Musers
-    'GeorgeDunham',
-    'junior_miller',
-    'gordonkeith',
-    # Norm Hitzges
-    'NormsClubhouse',
-    # BaD Radio
-    'SportsSturm',
-    'bracketdan',
-    'GreatDonovan',
-    'NotJackKemp',
-    # The Hardline
-    'theoldgreywolf',
-    'corbydavidson',
-    'badkaratemovie',
-    # Cirque du Sirois
-    'MikeSirois',
-    'CashSports',
-    # Ticker guys and JV
-    'sbass1310',
-    'tlw716',
-    'killer1310',
-    'CincoDeMino',
-    'CrayTrey1310',
-    'poponjer',
-    'JustinMonty',
-    'FAHY_MANE',
-    'machinesports',
-    'TC1310'
-]
-
-if debug is True:
-    print("___Debug mode___")
-    users.extend(['JasonDFW', 'SoccerlessSturm', 'SportsSlurm'])
-
-track = None
 
 
 # override tweepy.StreamListener to add logic to on_status
@@ -116,13 +76,33 @@ def start_stream():
     # encoding() removed from if follow and if track in Stream.filter for Py3
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
 
-    user_data = api.lookup_users(screen_names=users)
-    for user in user_data:
-        print("Following: {0} - @{1} ({2})".format(user.name,
-                                                   user.screen_name,
-                                                   user.id_str))
-    user_ids = [user.id_str for user in user_data]
-    myStream.filter(follow=user_ids, async=True)
+    # Lookup users whether given an ID (most accurate) or a screen name
+    user_ids = []
+    screen_names = []
+
+    for user in users:
+        if user['user_id']:
+            user_ids.append(user['user_id'])
+        elif user['screen_name']:
+            screen_names.append(user['screen_name'])
+        else:
+            # TODO report error
+            if debug:
+                print('User {} not found'.format(user))
+
+    if debug:
+        screen_names.extend(debug_users)
+
+    user_data = api.lookup_users(screen_names=screen_names, user_ids=user_ids)
+
+    if debug:
+        for user in user_data:
+            print("Following: {0} - @{1} ({2})".format(user.name,
+                                                       user.screen_name,
+                                                       user.id_str))
+
+    follow_ids = [user.id_str for user in user_data]
+    myStream.filter(follow=follow_ids, async=True)
 
 if __name__ == '__main__':
     start_stream()
