@@ -24,19 +24,23 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 {% endblock styles %}
 
-{% block navbar %}
-  {% include "navbar.html" %}
-{% endblock navbar %}
+{% block body %}
+    {% block navbar %}
+      {% include "navbar.html" %}
+    {% endblock navbar %}
 
-{% block content %}
+    {% block content %}
 
-{% endblock content %}
+    {% endblock content %}
 
-{% block scripts %}
-  {# TODO remove jquery from this #}
-  {{ super() }}
-<script type=text/javascript>
-  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-</script>
-  <script src="{{ url_for('static', filename='js/tweetstream.js') }}"></script>
-{% endblock scripts %}
+    {% include "footer.html" %}
+
+    {% block scripts %}
+      {# TODO remove jquery from this #}
+      {{ super() }}
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+      <script src="{{ url_for('static', filename='js/tweetstream.js') }}"></script>
+    {% endblock scripts %}
+{% endblock body %}
