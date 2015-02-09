@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-  {% include "tweetstream.html" %}
+  <div id="tweetstream" class="container col-md-6 center-block">
+    <div class="row">
+      {% include "tweetstream.html" %}
+    </div>
+  </div>
 {% endblock content %}
