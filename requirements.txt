@@ -1,4 +1,7 @@
+certifi==14.5.14
 Flask==0.10.1
+Flask-Bootstrap==3.3.0.1
+Flask-Moment==0.4.0
 itsdangerous==0.24
 Jinja2==2.7.3
 MarkupSafe==0.23
@@ -6,6 +9,6 @@ oauthlib==0.7.2
 pymongo==2.7.2
 requests==2.4.3
 requests-oauthlib==0.4.1
-six==1.7.3
-tweepy==3.1.0
+six==1.9.0
+tweepy==3.2.0
 Werkzeug==0.9.6
