@@ -63,3 +63,4 @@ test.db
 venv/
 tweetcache/
 keys.py
+app/static/bower_components/
