@@ -1,13 +1,15 @@
-body {
-    padding-top: 70px;
+html {
+    position: relative;
+    min-height: 100%;
 }
-.tweet {
-    width: 100%;
+body {
+    margin-top: 70px;
+    margin-bottom: 60px;
 }
 .tweet .profile_img {
     float: left;
-    height: 73px;
-    width: 73px;
+    height: 48px;
+    width: 48px;
     border-radius: 5px;
     clear: left;
     position: relative;
@@ -21,30 +23,26 @@ body {
 }
 .user_name {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 1em;
     color: #292f33;
 }
-.user_name:hover {
+.user_box:hover .user_name {
     color: #009999;
 }
 .screen_name {
-    font-size: 13px;
+    font-size: .9em;
     color: #8899a6;
 }
 .tweet .tweet_media {
     width: 100%;
 }
-.center-block {
-    float:none;
-}
 #tweetstream {
-    padding-bottom: 50px;
 }
 .tweet_timestamp {
     float: right;
 }
-.retweeter_name {
-
+.retweeter_name .retweet {
+    color: green;
 }
 .tweet .tweet_text {
     display: inline-block;
@@ -52,55 +50,43 @@ body {
     padding: 5px;
     width: 100%;
 }
-.tweets .actions {
-
+.tweet .panel-body {
+    padding-bottom: 0;
 }
-.twitter-sprite {
+.tweet>.actions {
+    padding: 5px;
+}
+.tweet>.actions>a.btn {
+    margin: 0;
+}
+i.reply {
+    color: gray;
+}
+a.reply:hover i {
+    color: black;
+}
+i.favorite {
+    color: gray;
+}
+a.favorite:hover i {
+    color: black;
+}
+i.retweet {
+    color: gray;
+}
+a.retweet:hover i {
+    color: black;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #3F51B5;
+}
+#more_tweets {
     display: inline-block;
-}
-.reply {
-background: url("../img/twitter-sprite.png") 0 0;
-height: 16px;
-width: 16px;
-}
-.reply_hover,
-.reply:hover {
-background: url("../img/twitter-sprite.png") -16px 0;
-height: 16px;
-width: 16px;
-}
-.favorite {
-background: url("../img/twitter-sprite.png") -32px 0;
-height: 16px;
-width: 16px;
-}
-.favorite_hover,
-.favorite:hover {
-background: url("../img/twitter-sprite.png") -48px 0;
-height: 16px;
-width: 16px;
-}
-.favorite_on {
-background: url("../img/twitter-sprite.png") -64px 0;
-height: 16px;
-width: 16px;
-}
-.retweet {
-background: url("../img/twitter-sprite.png") -80px 0;
-height: 16px;
-width: 19px;
-}
-.retweet_hover,
-.retweet:hover {
-background: url("../img/twitter-sprite.png") -99px 0;
-height: 16px;
-width: 19px;
-}
-.retweet_on {
-background: url("../img/twitter-sprite.png") -118px 0;
-height: 16px;
-width: 19px;
-}
-.actions>a>.twitter-sprite {
-    margin: 5px 10px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(255, 255, 255, 0.843137);
 }
