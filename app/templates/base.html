@@ -48,6 +48,14 @@
     <script type=text/javascript>
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
+      <!-- Arrive.js to apply material to dynamic elements -->
+      <script src="{{ url_for('static', filename='js/arrive/arrive-2.0.0.min.js') }}"></script>
+      <script>
+        // Watch for elements created and update with arrive.js
+        $('#tweet-container').arrive(".tweet", function() {
+          var $newElem = $(this);
+        });
+      </script>
       <!-- Bootstrap Material Design JS -->
       <script src="{{ url_for('static', filename='material-design/js/ripples.min.js') }}"></script>
       <script src="{{ url_for('static', filename='material-design/js/material.min.js') }}"></script>
