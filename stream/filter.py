@@ -161,6 +161,12 @@ users = [
             'Norm Hitzges',
             'BaD Radio'
         ]
+    },
+    {
+        'name': 'Eli Jordan',
+        'user_id': '74884074',
+        'screen_name': 'TheEliJordan',
+        'show': ''
     }
 ]
 
