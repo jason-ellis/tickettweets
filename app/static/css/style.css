@@ -6,6 +6,9 @@ body {
     margin-top: 70px;
     margin-bottom: 60px;
 }
+.tweet.panel-primary {
+    background-color: rgba(0, 149, 135, 0.1);
+}
 .tweet .profile_img {
     float: left;
     height: 48px;
@@ -42,7 +45,7 @@ body {
     float: right;
 }
 .retweeter_name .retweet {
-    color: green;
+    color: rgb(92, 145, 59);;
 }
 .tweet .tweet_text {
     display: inline-block;
@@ -63,19 +66,19 @@ i.reply {
     color: gray;
 }
 a.reply:hover i {
-    color: black;
+    color: rgb(0, 153, 153);
 }
 i.favorite {
     color: gray;
 }
 a.favorite:hover i {
-    color: black;
+    color: rgb(255, 172, 51);
 }
 i.retweet {
     color: gray;
 }
 a.retweet:hover i {
-    color: black;
+    color: rgb(92, 145, 59);
 }
 .footer {
   position: absolute;
