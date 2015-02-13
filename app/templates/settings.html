@@ -1,21 +1,26 @@
 <div id="settings_container" class="col-sm-4 col-md-3 col-lg-3">
   <div class="panel panel-default">
-      <form>
-        <fieldset>
-            <legend>Legend</legend>
-            <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox"> Person
-                    </label>
-                </div>
+    <form>
+      <fieldset>
+        <legend>Shows</legend>
+        {% for show in users %}
+          <div class="form-group">
+            <div class="checkbox">
+              <label class="text-primary"><input type="checkbox">{{ show['show_name'] }}</label>
             </div>
+          </div>
+          {% for host in show['hosts'] %}
             <div class="form-group">
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox"> Person 2
-                    </label>
-                </div>
+              <div class="checkbox">
+                <label class="text-info"><input type="checkbox">{{ host['name'] }}</label>
+              </div>
+            </div>
+          {% endfor %}
+        {% endfor %}
+            <div class="form-group">
+              <div class="checkbox">
+                <label><input type="checkbox">P1s</label>
+              </div>
             </div>
             <div class="form-group">
                 <div>

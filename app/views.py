@@ -3,7 +3,7 @@ from datetime import datetime
 
 import re
 from app import app, collection
-from stream import debug
+from stream import debug, users
 from flask import render_template, request, Markup
 
 
@@ -22,6 +22,7 @@ def index():
         print('Sent {0} tweets to DOM'.format(len(tweets)))
     return render_template('index.html',
                            tweets=tweets,
+                           users=users,
                            debug=debug)
 
 # AJAX call for new tweets

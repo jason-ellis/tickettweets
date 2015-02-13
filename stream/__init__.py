@@ -1,9 +1,13 @@
 import tweepy
-from .filter import users, track, debug_users
+from .filter import StreamFilter
 from app.keys import *
 from app import collection
 from config import debug
 import json
+
+users = StreamFilter.users
+track = StreamFilter.track
+debug_users = StreamFilter.debug_users
 
 
 # override tweepy.StreamListener to add logic to on_status
@@ -39,22 +43,10 @@ class MyStreamListener(tweepy.StreamListener):
                         for status.entities['user_mentions']
                         in status.entities['user_mentions']]
 
-            if screen_name in users:
-                print('--------------')
-                print("|--| {0}".format(user_name))
-                print("|__| @{0}".format(screen_name))
-                print(status_text)
-                print('\n')
-                print("Reply, Retweet, Favorite")
-                print("{0} - {1}".format(tweet_time, tweet_link))
-                print(status.source)
-                print('--------------')
-                return True
-            else:
-                print("@{0} mentioned {1} - {2}".format(screen_name,
-                                                        mentions,
-                                                        tweet_link))
-                print("\t{0}".format(status_text))
+            print("@{0} mentioned {1} - {2}".format(screen_name,
+                                                    mentions,
+                                                    tweet_link))
+            print("\t{0}".format(status_text))
 
     def on_error(self, status_code):
         print("Error {0} encountered".format(status_code))
@@ -80,15 +72,17 @@ def start_stream():
     user_ids = []
     screen_names = []
 
-    for user in users:
-        if user['user_id']:
-            user_ids.append(user['user_id'])
-        elif user['screen_name']:
-            screen_names.append(user['screen_name'])
-        else:
-            # TODO report error
-            if debug:
-                print('User {} not found'.format(user))
+    for item in users:
+        for host in item['hosts']:
+            # for key, host in show['hosts'].items():
+            if host['user_id']:
+                user_ids.append(host['user_id'])
+            elif host['screen_name']:
+                screen_names.append(host['screen_name'])
+            else:
+                # TODO report error
+                if debug:
+                    print('User {} not found'.format(host))
 
     if debug:
         screen_names.extend(debug_users)

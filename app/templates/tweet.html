@@ -22,7 +22,6 @@
     else tweet.text %}
 {% set follow_ids = ['22737112', '19529387', '15763416', '51240452', '44159806', '269957637', '311434643', '407929406', '54969017', '22730876', '89828373', '30322683', '22644385', '179822898', '633349672', '33029262', '23696497', '18510794', '45840247', '100014302', '558304993', '128320983', '21830846', '33132420', '2956256077', '1558819819']
  %}
-
 {% if (user_id in follow_ids and not tweet.retweeted_status) or
     (tweet.retweeted_status and tweet.user.id_str in follow_ids) %}
   <div class="tweet panel panel-primary" data-tweet="{{ tweet.id_str }}">
