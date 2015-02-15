@@ -1,57 +1,70 @@
 {# Set tweet variables #}
-{% set tweet_id = tweet.retweeted_status.id_str
-    if tweet.retweeted_status
-    else tweet.id_str %}
-{% set user_id = tweet.retweeted_status.user.id_str
-    if tweet.retweeted_status
-    else tweet.user.id_str %}
-{% set tweet_created_at = tweet.retweeted_status.created_at
-    if tweet.retweeted_status
-    else tweet.created_at %}
-{% set user_name = tweet.retweeted_status.user.name
-    if tweet.retweeted_status
-    else tweet.user.name %}
-{% set user_screen_name = tweet.retweeted_status.user.screen_name
-    if tweet.retweeted_status
-    else tweet.user.screen_name %}
-{% set user_profile_image_url = tweet.retweeted_status.user.profile_image_url
-    if tweet.retweeted_status
-    else tweet.user.profile_image_url %}
-{% set tweet_text = tweet.retweeted_status.text
-    if tweet.retweeted_status
-    else tweet.text %}
+{% set is_retweet = True if tweet.retweeted_status else False %}
+{% set is_reply = True if tweet.in_reply_to_status_id else False %}
+{# Variables used in retweets #}
+{% if is_retweet %}
+    {% set retweeter_user_name = tweet.user.name %}
+    {% set retweeter_user_id = tweet.user.id_str %}
+    {% set user_name = tweet.retweeted_status.user.name %}
+    {% set screen_name = tweet.retweeted_status.user.screen_name %}
+    {% set user_profile_image_url = tweet.retweeted_status.user.profile_image_url %}
+    {% set retweeted_id = tweet.retweeted_status.id_str %}
+    {% set user_id = tweet.retweeted_status.user.id_str %}
+    {% set created_at = tweet.retweeted_status.created_at %}
+    {% set retweet_created_at = tweet.created_at %}
+    {% set retweeted_user_name = tweet.retweeted_status.user.name %}
+    {% set tweet_text = tweet.retweeted_status.text %}
+{% else %}
+    {% set user_name = tweet.user.name %}
+    {% set screen_name = tweet.user.screen_name %}
+    {% set user_id = tweet.user.id_str %}
+    {% set user_profile_image_url = tweet.user.profile_image_url %}
+    {% set tweet_text = tweet.text %}
+    {% set created_at = tweet.created_at %}
+{% endif %}
+{# Variables used in replies #}
+{% if is_reply %}
+    {% set reply_id = tweet.in_reply_to_status_id %}
+    {% set reply_to_user = tweet.in_reply_to_user_id_str %}
+    {% set reply_screen_name = tweet.in_reply_to_screen_name %}
+{% endif %}
+{# Original tweet variables #}
+{% set tweet_id = tweet.id_str %}
+{# Users followed #}
 {% set follow_ids = ['22737112', '19529387', '15763416', '51240452', '44159806', '269957637', '311434643', '407929406', '54969017', '22730876', '89828373', '30322683', '22644385', '179822898', '633349672', '33029262', '23696497', '18510794', '45840247', '100014302', '558304993', '128320983', '21830846', '33132420', '2956256077', '1558819819']
  %}
-{% if (user_id in follow_ids and not tweet.retweeted_status) or
-    (tweet.retweeted_status and tweet.user.id_str in follow_ids) %}
-  <div class="tweet panel panel-primary" data-tweet="{{ tweet.id_str }}">
-{% else %}
-  <div class="tweet panel panel-default" data-tweet="{{ tweet.id_str }}">
-{% endif %}
 
-{# Retweeter name, timestamp, permalink to user. Does not use local variables #}
-{% if tweet.retweeted_status %}
+{# Set tweet panel classes #}
+{% set panel_classes = 'panel-primary'
+    if (user_id in follow_ids and not is_retweet) or
+    (is_retweet and tweet.user.id_str in follow_ids)
+    else 'panel-default' %}
 
-  <div class="retweeter_name panel-heading panel-title" data-retweet="{{ tweet.id_str }}">
+{# Set panel color based on tracked users #}
+  <div class="tweet panel {{ panel_classes }}" data-tweet="{{ tweet_id }}">
+
+{# Retweeter name, timestamp, permalink to user. #}
+{% if is_retweet %}
+
+  <div class="retweeter_name panel-heading panel-title" data-retweet="{{ retweeted_id }}">
     <i class="fa fa-retweet retweet"></i>
-    <a href="https://twitter.com/intent/follow?user_id={{ tweet.user.id_str }}/" target="_blank">{{ tweet.user.name }} retweeted at
-      {{ moment(tweet.created_at|parse_date).format('h:mma') }}</a>
+    <a href="https://twitter.com/intent/follow?user_id={{ retweeter_user_id -}}/" target="_blank">{{ retweeter_user_name }} retweeted at
+      {{ moment(retweet_created_at|parse_date).format('h:mma') }}</a>
   </div><!-- retweeter_name -->
 
-{% elif tweet.in_reply_to_status_id %}
+{% elif is_reply %}
 
-  <div class="reply_tweet panel-heading panel-title" data-reply="{{ tweet.id_str }}">
-    <a href="https://twitter.com/{{ tweet.in_reply_to_user_id_str }}/status/{{ tweet.in_reply_to_status_id }}/" target="_blank">In reply to @{{ tweet.in_reply_to_screen_name }}</a>
+  <div class="reply_tweet panel-heading panel-title" data-reply="{{ reply_id }}">
+    <a href="https://twitter.com/{{ reply_to_user }}/status/{{ reply_id }}/" target="_blank">In reply to @{{ reply_screen_name }}</a>
   </div><!-- reply_tweet -->
 
 {% endif %}
 
   <div class="panel-body">
+
 {# Tweet timestamp and permalink #}
   <div class="tweet_timestamp">
-
-    <a href="http://twitter.com/{{ user_id }}/status/{{ tweet_id }}" target="_blank" title="{{ tweet_created_at }}">{{ moment(tweet_created_at|parse_date).format('h:mma - ddd MMM D') }}</a>
-
+        <a href="http://twitter.com/{{ user_id -}}/status/{{ tweet_id -}}/" target="_blank" title="{{ created_at }}">{{ moment(created_at|parse_date).format('h:mma - ddd MMM D') }}</a>
   </div><!-- tweet_timestamp -->
 
 {# User profile, name, screen name #}
@@ -63,6 +76,8 @@
 {# Tweet text #}
   <div class="tweet_text">{{ tweet_text }}</div>
 
+{# Tweet entities #}
+  {# TODO clear up difference btw entities and extended entities #}
 {% if tweet.entities.media %}
 
     {% for media in tweet.entities.media %}
