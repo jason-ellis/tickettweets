@@ -81,7 +81,7 @@
   <div class="tweet_text">{{ tweet_text }}</div>
 
 {# Tweet entities-#}
-  {# TODO clear up difference btw entities and extended entities-#}
+  {# TODO clear up difference btwn entities and extended entities-#}
 {% if tweet.entities.media -%}
 
     {% for media in tweet.entities.media -%}
@@ -110,4 +110,4 @@
   <a href="https://twitter.com/intent/retweet?tweet_id={{ tweet_id }}" target="_blank" class="btn btn-default retweet"><i class="fa fa-retweet retweet" title="Retweet"></i></a>
   <a href="https://twitter.com/intent/favorite?tweet_id={{ tweet_id }}" target="_blank" class="btn btn-default favorite"><i class="fa fa-star favorite" title="Favorite"></i></a>
   </div><!-- actions panel-footer -->
-</div><!-- tweet panel panel-default -->
+</div><!-- tweet panel -->

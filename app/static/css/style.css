@@ -58,6 +58,7 @@ body {
 }
 .tweet>.actions {
     padding: 5px;
+    display: none;
 }
 .tweet>.actions>a.btn {
     margin: 0;

@@ -36,6 +36,17 @@ $(document).ready(function() {
         });
     });
 
+    // Toggle expanding and contracting tweets on click
+    $('div.tweet').click(function(e) {
+        console.log(e.target.nodeName);
+        if(!$(e.target).is('.tweet a, ' +
+            'a>div, ' +
+            '.tweet i, ' +
+            '.tweet span')) {
+            $(this).find('.actions').toggle('fast');
+        }
+    });
+
     // Fetches data-tweet of each tweet and returns the highest value as cursor
     function getCursor() {
         if(debug) {
