@@ -11,7 +11,9 @@
     {% set retweeted_id = tweet.retweeted_status.id_str -%}
     {% set user_id = tweet.retweeted_status.user.id_str -%}
     {% set created_at = tweet.retweeted_status.created_at -%}
+    {% set created_at_datetime = created_at|parse_date %}
     {% set retweet_created_at = tweet.created_at -%}
+    {% set retweet_created_at_datetime = retweet_created_at|parse_date %}
     {% set retweeted_user_name = tweet.retweeted_status.user.name -%}
     {% set tweet_text = tweet.retweeted_status.text -%}
 {# Variables when not a retweet #}
@@ -22,6 +24,7 @@
     {% set user_profile_image_url = tweet.user.profile_image_url -%}
     {% set tweet_text = tweet.text -%}
     {% set created_at = tweet.created_at -%}
+    {% set created_at_datetime = created_at|parse_date %}
 {% endif -%}
 {# Variables used in replies -#}
 {% if is_reply -%}
@@ -50,7 +53,7 @@
   <div class="retweeter_name panel-heading panel-title" data-retweet="{{ retweeted_id }}">
     <i class="fa fa-retweet retweet"></i>
     <a href="https://twitter.com/intent/follow?user_id={{ retweeter_user_id -}}/" target="_blank">{{ retweeter_user_name }} retweeted at
-      {{ moment(retweet_created_at|parse_date).format('h:mma') }}</a>
+      {{ moment(retweet_created_at_datetime).format('h:mma') }}</a>
   </div><!-- retweeter_name -->
 
 {% elif is_reply -%}
@@ -62,10 +65,10 @@
 {% endif -%}
 
   <div class="panel-body">
-
 {# Tweet timestamp and permalink-#}
+  {# TODO relative timestamp within 24 hours #}
   <div class="tweet_timestamp">
-        <a href="http://twitter.com/{{ user_id -}}/status/{{ tweet_id -}}/" target="_blank" title="{{ created_at }}">{{ moment(created_at|parse_date).format('h:mma - ddd MMM D') }}</a>
+        <a href="http://twitter.com/{{ user_id -}}/status/{{ tweet_id -}}/" target="_blank" title="{{ created_at }}">{{ moment(created_at_datetime).format('h:mma - ddd MMM D') }}</a>
   </div><!-- tweet_timestamp -->
 
 {# User profile, name, screen name-#}

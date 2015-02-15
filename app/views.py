@@ -97,7 +97,6 @@ def more_tweets():
 @app.template_filter('parse_date')
 def parse_date(tweet_date):
     parsed_date = datetime.strptime(tweet_date, '%a %b %d %H:%M:%S %z %Y')
-    # parsed_date = parsed_date.strftime('%a %b %d %I:%M %p')
     return parsed_date
 
 
