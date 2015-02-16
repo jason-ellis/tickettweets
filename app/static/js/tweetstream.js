@@ -36,8 +36,9 @@ $(document).ready(function() {
         });
     });
 
+    // TODO change this to increase mobile performance
     // Toggle expanding and contracting tweets on click
-    $('div.tweet').click(function(e) {
+    $('#tweet_container').on('click', 'div.tweet', function(e) {
         console.log(e.target.nodeName);
         if(!$(e.target).is('.tweet a, ' +
             'a>div, ' +
