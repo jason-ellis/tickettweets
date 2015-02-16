@@ -116,8 +116,8 @@ def add_entities(tweet_text, tweet_entities):
         for user in tweet_entities['user_mentions']:
             tweet_text = re.sub(
                 '@{0}'.format(user['screen_name']),
-                '<a href="https://twitter.com/intent/follow?user_id={0}/" '
-                'target="_blank">@{1}</a>'.format(user['id_str'],
+                '<a href="https://twitter.com/intent/follow?screen_name={0}" '
+                'target="_blank">@{0}</a>'.format(user['screen_name'],
                                                   user['screen_name']),
                 tweet_text, flags=re.IGNORECASE)
     if 'media' in tweet_entities:
