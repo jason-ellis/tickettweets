@@ -5,6 +5,7 @@
 {% if is_retweet -%}
     {% set retweeter_user_name = tweet.user.name -%}
     {% set retweeter_user_id = tweet.user.id_str -%}
+    {% set retweeter_screen_name = tweet.user.screen_name %}
     {% set user_name = tweet.retweeted_status.user.name -%}
     {% set screen_name = tweet.retweeted_status.user.screen_name -%}
     {% set user_profile_image_url = tweet.retweeted_status.user.profile_image_url -%}
@@ -52,14 +53,14 @@
 
   <div class="retweeter_name panel-heading panel-title" data-retweet="{{ retweeted_id }}">
     <i class="fa fa-retweet retweet"></i>
-    <a href="https://twitter.com/intent/follow?user_id={{ retweeter_user_id -}}/" target="_blank">{{ retweeter_user_name }} retweeted at
+    <a href="https://twitter.com/intent/follow?screen_name={{ retweeter_screen_name -}}" target="_blank">{{ retweeter_user_name }} retweeted at
       {{ moment(retweet_created_at_datetime).format('h:mma') }}</a>
   </div><!-- retweeter_name -->
 
 {% elif is_reply -%}
 
   <div class="reply_tweet panel-heading panel-title" data-reply="{{ reply_id }}">
-    <a href="https://twitter.com/{{ reply_to_user }}/status/{{ reply_id }}/" target="_blank">In reply to @{{ reply_screen_name }}</a>
+    <a href="https://twitter.com/{{ reply_screen_name }}/status/{{ reply_id }}/" target="_blank">In reply to @{{ reply_screen_name }}</a>
   </div><!-- reply_tweet -->
 
 {% endif -%}
@@ -68,11 +69,11 @@
 {# Tweet timestamp and permalink-#}
   {# TODO relative timestamp within 24 hours #}
   <div class="tweet_timestamp">
-        <a href="http://twitter.com/{{ user_id -}}/status/{{ tweet_id -}}/" target="_blank" title="{{ created_at }}">{{ moment(created_at_datetime).format('h:mma - ddd MMM D') }}</a>
+        <a href="http://twitter.com/{{ screen_name -}}/status/{{ tweet_id -}}/" target="_blank" title="{{ created_at }}">{{ moment(created_at_datetime).format('h:mma - ddd MMM D') }}</a>
   </div><!-- tweet_timestamp -->
 
 {# User profile, name, screen name-#}
-  <a href="https://twitter.com/intent/follow?user_id={{ user_id }}/" target="_blank" class="user_box">
+  <a href="https://twitter.com/intent/follow?screen_name={{ screen_name }}" target="_blank" class="user_box">
     <img class="profile_img" src="{{ user_profile_image_url }}" alt="profile image">
   <div class="user_name">{{ user_name }}</div><br>
     <div class="screen_name ">@{{ screen_name }}</div></a>
