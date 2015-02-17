@@ -5,9 +5,10 @@ html {
 body {
     margin-top: 70px;
     margin-bottom: 60px;
+    background-color: hsl(230, 48%, 75%);
 }
 .tweet.panel-primary {
-    background-color: rgba(0, 149, 135, 0.1);
+    background-color: hsl(174, 100%, 95%);
 }
 .tweet .profile_img {
     float: left;
@@ -45,7 +46,7 @@ body {
     float: right;
 }
 .retweeter_name .retweet {
-    color: rgb(92, 145, 59);;
+    color: rgb(92, 145, 59);
 }
 .tweet .tweet_text {
     display: inline-block;
@@ -54,10 +55,10 @@ body {
     width: 100%;
 }
 .tweet .panel-body {
-    padding-bottom: 0;
+
 }
 .tweet>.actions {
-    padding: 5px;
+    padding: 0 5px 5px 5px;
     display: none;
 }
 .tweet>.actions>a.btn {
