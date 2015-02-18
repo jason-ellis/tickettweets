@@ -4,6 +4,7 @@ from app.keys import *
 from app import collection
 from config import debug
 import json
+import datetime
 
 users = StreamFilter.users
 track = StreamFilter.track
@@ -55,6 +56,16 @@ class MyStreamListener(tweepy.StreamListener):
             print('Encountered status code 420. Quitting')
             return False
 
+    def on_timeout(self):
+        print("Timeout occurred at {}".format(datetime.datetime.now()))
+        return
+
+    def on_disconnect(self, notice):
+        print("Disconnected at {}".format(datetime.datetime.now()))
+        print("Twitter sent the following disconnect message: \n{}"
+              .format(notice))
+        return
+
 
 def start_stream():
 
@@ -66,7 +77,9 @@ def start_stream():
     myStreamListener = MyStreamListener()
 
     # encoding() removed from if follow and if track in Stream.filter for Py3
-    myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
+    myStream = tweepy.Stream(auth=api.auth,
+                             listener=myStreamListener,
+                             retry_count=5)
 
     # Lookup users whether given an ID (most accurate) or a screen name
     user_ids = []
