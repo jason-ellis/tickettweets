@@ -176,7 +176,7 @@ class StreamFilter(object):
                 },
                 {
                     'name': 'Davey Lane',
-                    'user_id': '',
+                    'user_id': '277731024',
                     'screen_name': 'oldwaver'
                 }
             ],
@@ -242,11 +242,13 @@ class StreamFilter(object):
                     'name': 'Justin Montemayor',
                     'user_id': '100014302',
                     'screen_name': 'JustinMonty'
+                },
+                {
+                    'name': 'Eli Jordan',
+                    'user_id': '74884074',
+                    'screen_name': 'TheEliJordan'
                 }
-            ],
-            'days': '',
-            'start_time': '',
-            'end_time': ''
+            ]
         }
     ]
 
