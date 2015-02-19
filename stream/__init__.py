@@ -5,6 +5,9 @@ from app import collection
 from config import debug
 import json
 import datetime
+import re
+import sys
+from flask import Markup
 
 users = StreamFilter.users
 track = StreamFilter.track
@@ -110,6 +113,92 @@ def start_stream():
 
     follow_ids = [user.id_str for user in user_data]
     myStream.filter(follow=follow_ids, async=True)
+
+
+# Return tweets from database
+def get_tweets(limit=0, cursor=None, age='old', sort='_id', order=-1):
+    """
+    :param limit: maximum number of tweets to return
+    :type limit: integer
+    :param cursor: reference tweet for results, default=None
+    :type cursor: integer
+    :param age: direction from cursor, old or new, default='old'
+    :type age: string
+    :param sort: sort field, default='_id'
+    :type sort: string
+    :param order: order of returned tweets, default=-1 (descending)
+    :type order: integer
+    :return: list of tweets returned from query
+    :rtype: list
+    """
+    tweets = []
+    tweet_query = {'text': {'$exists': True}}
+    if cursor:
+        if age is 'old':
+            direction = '$lt'
+        elif age is 'new':
+            direction = '$gt'
+        tweet_query['_id'] = {direction: cursor}
+        if debug:
+            try:
+                cursor_tweet = collection.find_one({'_id': cursor})
+                print('Cursor tweet {0} created at {1}'
+                      .format(cursor,
+                              cursor_tweet['created_at']))
+            except TypeError as e:
+                print('**Error encountered finding the cursor. {} not found'
+                      .format(cursor))
+                print('**TypeError: {}'.format(e))
+            except:
+                e = sys.exc_info()[0]
+                print('**Other Error: {}'.format(e))
+    if debug:
+        print(tweet_query)
+
+    for tweet in collection.find(tweet_query)\
+            .sort(sort, order).limit(limit):
+        if 'retweeted_status' in tweet:
+            tweet['retweeted_status']['text'] = \
+                add_entities(tweet['retweeted_status']['text'],
+                             tweet['retweeted_status']['entities'])
+        tweet['text'] = add_entities(tweet['text'], tweet['entities'])
+        tweets.append(tweet)
+    return tweets
+
+
+# add links to entities in tweet
+def add_entities(tweet_text, tweet_entities):
+    # Per Twitter API, tolerant of possible empty/null values
+    if 'urls' in tweet_entities:
+        for url in tweet_entities['urls']:
+            tweet_text = re.sub(
+                url['url'],
+                '<a href="{0}" title="{1}" target="_blank">{2}</a>'
+                .format(url['url'],
+                        url['expanded_url'],
+                        url['display_url']),
+                tweet_text, flags=re.IGNORECASE)
+    if 'user_mentions' in tweet_entities:
+        for user in tweet_entities['user_mentions']:
+            tweet_text = re.sub(
+                '@{0}'.format(user['screen_name']),
+                '<a href="https://twitter.com/intent/follow?screen_name={0}" '
+                'target="_blank">@{0}</a>'.format(user['screen_name'],
+                                                  user['screen_name']),
+                tweet_text, flags=re.IGNORECASE)
+    if 'media' in tweet_entities:
+        for media in tweet_entities['media']:
+            tweet_text = tweet_text.replace(media['url'], '')
+    if 'hashtags' in tweet_entities:
+        for hashtag in tweet_entities['hashtags']:
+            tweet_text = re.sub(
+                '#{0}'.format(hashtag['text']),
+                '<a href="http://twitter.com/search?q=%23{0}" '
+                'target="_blank">#{0}</a>'
+                .format(hashtag['text']),
+                tweet_text, flags=re.IGNORECASE)
+    tweet_text = Markup(tweet_text)
+    return tweet_text
 
 if __name__ == '__main__':
     start_stream()
