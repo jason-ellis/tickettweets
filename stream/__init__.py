@@ -90,7 +90,6 @@ def start_stream():
 
     for item in users:
         for host in item['hosts']:
-            # for key, host in show['hosts'].items():
             if host['user_id']:
                 user_ids.append(host['user_id'])
             elif host['screen_name']:
@@ -115,22 +114,41 @@ def start_stream():
     myStream.filter(follow=follow_ids, async=True)
 
 
+# TODO user_ids should be submitted to view from form
 # Return tweets from database
-def get_tweets(limit=0, cursor=None, age='old', sort='_id', order=-1):
+def get_tweets(limit=0,
+               user_ids=users,
+               mentions=True,
+               cursor=None,
+               age='old',
+               sort='_id',
+               order=-1):
     """
     :param limit: maximum number of tweets to return
-    :type limit: integer
+    :type limit: int
+    :param user_ids: list of user IDs to track
+    :type user_ids: list
+    :param mentions: whether to include mentions of users in user_ids
+    :type mentions: bool
     :param cursor: reference tweet for results, default=None
-    :type cursor: integer
+    :type cursor: int
     :param age: direction from cursor, old or new, default='old'
-    :type age: string
+    :type age: str
     :param sort: sort field, default='_id'
-    :type sort: string
+    :type sort: str
     :param order: order of returned tweets, default=-1 (descending)
-    :type order: integer
+    :type order: int
     :return: list of tweets returned from query
     :rtype: list
     """
+
+    user_query = []
+    # TODO remove this for statement once user_ids are passed from site
+    for item in user_ids:
+        for host in item['hosts']:
+            if host['user_id']:
+                user_query.append(host['user_id'])
+
     tweets = []
     tweet_query = {'text': {'$exists': True}}
     if cursor:
@@ -152,6 +170,13 @@ def get_tweets(limit=0, cursor=None, age='old', sort='_id', order=-1):
             except:
                 e = sys.exc_info()[0]
                 print('**Other Error: {}'.format(e))
+
+    if mentions:
+        tweet_query['$or'] = [{'user.id_str': {'$in': user_query}},
+                              {'in_reply_to_user_id_str': {'$in': user_query}}]
+    else:
+        tweet_query['user.id_str'] = {'$in': user_query}
+
     if debug:
         print(tweet_query)
 
