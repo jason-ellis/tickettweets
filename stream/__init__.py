@@ -1,6 +1,5 @@
 import tweepy
 from .filter import StreamFilter
-from app import collection
 from config import debug
 import json
 import datetime
@@ -8,6 +7,8 @@ import re
 import sys
 import os
 from flask import Markup
+from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure
 
 try:
     CONSUMER_KEY = os.environ['CONSUMER_KEY']
@@ -20,6 +21,17 @@ except KeyError:
 users = StreamFilter.users
 track = StreamFilter.track
 debug_users = StreamFilter.debug_users
+
+# Start MongoDB
+try:
+    # Dev MongoDB database
+    conn = MongoClient()
+    db = conn.tickettweets
+except ConnectionFailure:
+    # Prod MongoDB database with default name from dokku-mongodb-plugin
+    conn = MongoClient('172.17.0.32', 27017)
+    db = conn['tickettweets-production']
+collection = db.tweets
 
 
 # override tweepy.StreamListener to add logic to on_status
