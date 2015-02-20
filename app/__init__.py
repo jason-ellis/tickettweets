@@ -9,7 +9,12 @@ moment = Moment(app)
 
 # Start MongoDB
 conn = MongoClient()
-db = conn.tickettweets
+if 'tickettweets-production' in conn.database_names():
+    # production DB named by dokku-mongodb-plugin
+    db = conn['tickettweets-production']
+else:
+    # dev database
+    db = conn.tickettweets
 collection = db.tweets
 
 from stream import start_stream
