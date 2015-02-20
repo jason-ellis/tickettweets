@@ -1,9 +1,9 @@
 certifi==14.5.14
-eventlet=0.16.1
+eventlet==0.16.1
 Flask==0.10.1
 Flask-Bootstrap==3.3.0.1
 Flask-Moment==0.4.0
-greenlet=0.4.5
+greenlet==0.4.5
 gunicorn==19.2.1
 itsdangerous==0.24
 Jinja2==2.7.3
