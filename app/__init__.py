@@ -1,5 +1,5 @@
 from flask import Flask
-from pymongo import Connection
+from pymongo import MongoClient
 from flask_bootstrap import Bootstrap
 from flask.ext.moment import Moment
 
@@ -8,7 +8,7 @@ Bootstrap(app)
 moment = Moment(app)
 
 # Start MongoDB
-conn = Connection()
+conn = MongoClient()
 db = conn.tickettweets
 collection = db.tweets
 
