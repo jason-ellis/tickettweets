@@ -12,5 +12,5 @@ requests==2.4.3
 requests-oauthlib==0.4.1
 six==1.9.0
 tornado==4.1
-tweepy==3.2.0
+-e git+https://github.com/jason-ellis/tweepy.git#egg=tweepy
 Werkzeug==0.9.6
