@@ -1,1 +1,1 @@
-web: gunicorn -k tornado app:app
+web: gunicorn -k eventlet app:app
