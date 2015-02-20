@@ -1,1 +1,1 @@
-web: gunicorn --threads 2 app:app
+web: gunicorn --threads 2 -k tornado app:app
