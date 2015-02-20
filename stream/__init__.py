@@ -1,13 +1,21 @@
 import tweepy
 from .filter import StreamFilter
-from app.keys import *
 from app import collection
 from config import debug
 import json
 import datetime
 import re
 import sys
+import os
 from flask import Markup
+
+try:
+    CONSUMER_KEY = os.environ['CONSUMER_KEY']
+    CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
+    ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+    ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
+except KeyError:
+    from app.keys import *
 
 users = StreamFilter.users
 track = StreamFilter.track
