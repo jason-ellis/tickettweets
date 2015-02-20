@@ -31,6 +31,8 @@ except ConnectionFailure:
     # Prod MongoDB database with default name from dokku-mongodb-plugin
     conn = MongoClient('172.17.0.32', 27017)
     db = conn['tickettweets-production']
+    db.authenticate(name=os.environ['MONGODB_USERNAME'],
+                    password=os.environ['MONGODB_PASSWORD'])
 collection = db.tweets
 
 
