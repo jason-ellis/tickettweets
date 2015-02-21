@@ -6,9 +6,6 @@ app = Flask(__name__)
 Bootstrap(app)
 moment = Moment(app)
 
-from stream import start_stream
-start_stream()
-
 # import after app to prevent circular import
 from app import views
 

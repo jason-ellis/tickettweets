@@ -1,10 +1,11 @@
+import json
+import datetime
+import sys
+
 import tweepy
 from .filter import StreamFilter
 from config import debug
-import json
-import datetime
 import re
-import sys
 import os
 from flask import Markup
 from pymongo import MongoClient
@@ -16,7 +17,7 @@ try:
     ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
     ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
 except KeyError:
-    from app.keys import *
+    from .keys import *
 
 users = StreamFilter.users
 track = StreamFilter.track
