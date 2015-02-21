@@ -65,3 +65,4 @@ venv2/
 tweetcache/
 keys.py
 app/static/bower_components/
+.env
