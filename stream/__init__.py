@@ -9,31 +9,19 @@ import re
 import os
 from flask import Markup
 from pymongo import MongoClient
-from pymongo.errors import ConnectionFailure
 
-try:
-    CONSUMER_KEY = os.environ['CONSUMER_KEY']
-    CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
-    ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-    ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
-except KeyError:
-    from .keys import *
+CONSUMER_KEY = os.environ['CONSUMER_KEY']
+CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
+ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+ACCESS_TOKEN_SECRET = os.environ['ACCESS_TOKEN_SECRET']
 
 users = StreamFilter.users
 track = StreamFilter.track
 debug_users = StreamFilter.debug_users
 
 # Start MongoDB
-try:
-    # Dev MongoDB database
-    conn = MongoClient()
-    db = conn.tickettweets
-except ConnectionFailure:
-    # Prod MongoDB database with default name from dokku-mongodb-plugin
-    conn = MongoClient('172.17.0.32', 27017)
-    db = conn['tickettweets-production']
-    db.authenticate(name=os.environ['MONGODB_USERNAME'],
-                    password=os.environ['MONGODB_PASSWORD'])
+conn = MongoClient(os.environ['MONGO_URI'])
+db = conn[os.environ['MONGODB_DATABASE']]
 collection = db.tweets
 
 
