@@ -1,2 +1,2 @@
 worker: ./run_stream.py
-web: gunicorn --worker-class=tornado --workers=3 app:app
+web: gunicorn --worker-class=gaiohttp --workers=3 app:app
