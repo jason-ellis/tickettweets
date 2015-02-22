@@ -24,6 +24,7 @@ def new_tweets():
     for tweet in updated_tweets:
         tweet_html = render_template('tweet.html',
                                      tweet=tweet,
+                                     new='new-tweet',
                                      debug=debug)
         updated_tweets_html.append(tweet_html)
     updated_tweets_html = '\n'.join(updated_tweets_html)

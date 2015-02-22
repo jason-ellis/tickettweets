@@ -44,6 +44,9 @@
     if (user_id in follow_ids and not is_retweet) or
     (is_retweet and tweet.user.id_str in follow_ids)
     else 'panel-default' -%}
+{% if new %}
+    {% set panel_classes = [panel_classes, new]|join(' ') %}
+{% endif %}
 
 {# Set panel color based on tracked users-#}
   <div class="tweet panel {{ panel_classes }}" data-tweet="{{ tweet_id }}">

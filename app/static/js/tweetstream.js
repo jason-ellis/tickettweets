@@ -14,7 +14,7 @@ $(document).ready(function() {
             $.get($SCRIPT_ROOT + '/_new_tweets',
                 {cursor: getCursor()},
                 function(new_tweets) {
-                    $('#tweet_container').prepend(new_tweets);
+                    $('#tweet_container').find('.new-tweet').removeClass('new-tweet').end().prepend(new_tweets);
                     flask_moment_render_all();
                 });
             $('html,body').animate({ scrollTop: 0 }, 'slow');
