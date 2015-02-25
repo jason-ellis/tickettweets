@@ -64,6 +64,7 @@ class MyStreamListener(tweepy.StreamListener):
             print("\t{0}".format(status_text))
 
     def on_error(self, status_code):
+        # TODO build exponential backoff strategy for rate limiting
         print("Error {0} encountered".format(status_code))
         if status_code == 420:
             # returning False in on_data disconnects the stream
