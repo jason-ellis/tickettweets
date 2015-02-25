@@ -12,6 +12,9 @@ body {
     box-shadow: rgba(0, 0, 0, 0.137255) 0 0 4px 0,
                 rgba(0, 0, 0, 0.278431) 0 4px 8px 0;
 }
+div.tweet:hover {
+    cursor: pointer;
+}
 .tweet.panel-primary {
     background-color: hsl(174, 100%, 95%);
 }
