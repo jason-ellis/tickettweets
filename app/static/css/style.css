@@ -110,3 +110,9 @@ a.retweet:hover i {
     margin-right: auto;
     color: rgba(255, 255, 255, 0.843137);
 }
+#settings-modal {
+    display: none;
+}
+.host-checkbox {
+    padding-left: 40px;
+}
