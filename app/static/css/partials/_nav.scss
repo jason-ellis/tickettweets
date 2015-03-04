@@ -1,0 +1,11 @@
+.navbar-inverse {
+  &.navbar {
+    background-color: $navbar-background-color;
+    box-shadow: rgba(0, 0, 0, 0.137255) 0 0 4px 0,
+                rgba(0, 0, 0, 0.278431) 0 4px 8px 0;
+  }
+}
+.beta-tag {
+    vertical-align: super;
+    font-size: .5em;
+}

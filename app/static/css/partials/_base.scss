@@ -1,0 +1,25 @@
+// Import all Modules
+@import '../modules/all';
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-top: 70px;
+  margin-bottom: 60px;
+  background-color: $background-color;
+}
+#more_tweets {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(255, 255, 255, 0.843137);
+}
+#settings-modal {
+    display: none;
+}
+.host-checkbox {
+    padding-left: 40px;
+}
