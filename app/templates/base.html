@@ -7,12 +7,14 @@
   {{ super() }}
   <meta name="description" content="Live Twitter feeds from The Ticket radio in Dallas">
   <meta id="debug" data-debug='{{ debug }}'>
+  <!-- Android 5.0 status bar color -->
+  <meta name="theme-color" content="#4387f4">
 {% endblock metas%}
 
 {% block head %}
   {{ super() }}
   {{ fixes.ie8() }}
-  {{ moment.include_jquery(version='1.11.1') }}
+  {{ moment.include_jquery(version='2.1.3') }}
   {{ moment.include_moment() }}
 {% endblock head %}
 
@@ -24,11 +26,11 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='material-design/css/ripples.min.css') }}" >
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='material-design/css/material-wfont.min.css') }}">
 
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 
-    <!-- Font Awesome for social buttons -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- Font Awesome for social buttons -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 {% endblock styles %}
 
 {% block body %}
@@ -43,8 +45,7 @@
     {% include "footer.html" %}
 
     {% block scripts %}
-      {# TODO remove jquery from this #}
-      {{ super() }}
+      <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script type=text/javascript>
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
