@@ -12,5 +12,5 @@ pymongo==2.7.2
 requests==2.4.3
 requests-oauthlib==0.4.1
 six==1.9.0
--e git+https://github.com/jason-ellis/tweepy.git#egg=tweepy
+tweepy==3.3.0
 Werkzeug==0.9.6
