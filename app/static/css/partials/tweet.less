@@ -3,10 +3,10 @@ div.tweet:hover {
 }
 .tweet {
   &.panel-primary {
-    background-color: $tracked-tweet;
+    background-color: @tracked-tweet;
   }
   &.new-tweet {
-    border-left: 3px solid $new-tweet-color;
+    border-left: 3px solid @new-tweet-color;
   }
   .user_box {
     .profile_img {
@@ -26,16 +26,16 @@ div.tweet:hover {
     }
     .screen_name {
       font-size: .9em;
-      color: $screen-name-color;
+      color: @screen-name-color;
     }
     .user_name {
       font-weight: bold;
       font-size: 1em;
-      color: $user-name-color;
+      color: @user-name-color;
     }
     &:hover {
         .user_name {
-          color: $user-name-hover-color;
+          color: @user-name-hover-color;
         }
     }
   }
@@ -47,7 +47,7 @@ div.tweet:hover {
   }
   .retweeter_name {
     .retweet {
-      color: $retweeted-icon-color;
+      color: @retweeted-icon-color;
     }
   }
   .tweet_text {
@@ -65,19 +65,19 @@ div.tweet:hover {
   }
 }
   i.reply {
-    color: $inactive-action-icon-color;
+    color: @inactive-action-icon-color;
   }
   a.reply:hover i {
     color: rgb(0, 153, 153);
   }
   i.favorite {
-    color: $inactive-action-icon-color;
+    color: @inactive-action-icon-color;
   }
   a.favorite:hover i {
     color: rgb(255, 172, 51);
   }
   i.retweet {
-    color: $inactive-action-icon-color;
+    color: @inactive-action-icon-color;
   }
   a.retweet:hover i {
     color: rgb(92, 145, 59);
